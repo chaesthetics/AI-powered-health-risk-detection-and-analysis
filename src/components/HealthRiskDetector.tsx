@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Heart, Activity, Coffee, Moon, Scale, Cigarette, Wine, Zap, User, Play } from 'lucide-react';
+import axios from 'axios';
 
 export default function HealthRiskDetector() {
   const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ export default function HealthRiskDetector() {
   });
 
   const [result, setResult] = useState<number | null>(null);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleInputChange = (field: string, value: any) => {
@@ -31,19 +33,28 @@ export default function HealthRiskDetector() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsAnalyzing(true);
-    console.log('Form Data Submitted:', formData);
-    
+
     try {
-      // Replace with your actual API call
-      // const response = await axios.post(process.env.NEXT_PUBLIC_AWS_ENDPOINT!, formData);
-      // setResult(JSON.parse(response.data.body).prediction);
-      
-      // Mock ML processing - remove this when using real API
-      setTimeout(() => {
-        const mockResult = Math.floor(Math.random() * 4); // 0, 1, 2, or 3
-        setResult(mockResult);
-        setIsAnalyzing(false);
-      }, 2000);
+      const response = await axios.post("/api/predict", formData);
+      const prediction = response.data.prediction;
+      setResult(prediction);
+
+      const response1 = await axios.post("/api/recommend", {
+        prompt: 'Provide 3 recommendations for a patient with the following details (bullet form, short sentence): ' + JSON.stringify(formData),
+      });
+      const text = response1.data.text;
+      const rawRecommend = text
+        .split("\n")
+        .filter((line: string) => line.trim().startsWith("*"))
+        .map((line: string) =>
+          line
+            .replace(/^\*\s*/, "")
+            .replace(/\*\*/g, "")
+            .trim()
+        );
+
+      setRecommendations(rawRecommend);
+      setIsAnalyzing(false);
     } catch (error) {
       console.error('Error:', error);
       setIsAnalyzing(false);
@@ -85,11 +96,7 @@ export default function HealthRiskDetector() {
           iconBgClass: 'bg-blue-100',
           iconClass: 'text-blue-600',
           textClass: 'text-blue-800',
-          recommendations: [
-            'Excellent health indicators! Keep up the great work',
-            'Continue maintaining your current healthy lifestyle',
-            'Regular health check-ups for preventive care'
-          ],
+          recommendations,
           recBgClass: 'bg-blue-50',
           recDotClass: 'bg-blue-500',
           recTextClass: 'text-blue-900'
@@ -102,11 +109,7 @@ export default function HealthRiskDetector() {
           iconBgClass: 'bg-green-100',
           iconClass: 'text-green-600',
           textClass: 'text-green-800',
-          recommendations: [
-            'Low risk detected - maintain current healthy habits',
-            'Consider minor lifestyle improvements',
-            'Regular monitoring and preventive care'
-          ],
+          recommendations,
           recBgClass: 'bg-green-50',
           recDotClass: 'bg-green-500',
           recTextClass: 'text-green-900'
@@ -119,11 +122,7 @@ export default function HealthRiskDetector() {
           iconBgClass: 'bg-yellow-100',
           iconClass: 'text-yellow-600',
           textClass: 'text-yellow-800',
-          recommendations: [
-            'Moderate risk - consider lifestyle modifications',
-            'Consult with healthcare provider for guidance',
-            'Focus on improving diet and exercise habits'
-          ],
+          recommendations,
           recBgClass: 'bg-yellow-50',
           recDotClass: 'bg-yellow-500',
           recTextClass: 'text-yellow-900'
@@ -168,7 +167,7 @@ export default function HealthRiskDetector() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+
           {/* Form Section */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -193,7 +192,7 @@ export default function HealthRiskDetector() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Age <span className="text-red-500">*</span>
@@ -457,7 +456,7 @@ export default function HealthRiskDetector() {
                       </>
                     )}
                   </button>
-                  
+
                   <button
                     type="button"
                     onClick={resetForm}
@@ -521,9 +520,6 @@ export default function HealthRiskDetector() {
                       <h3 className={`text-xl font-bold ${getRiskDetails(result).textClass}`}>
                         {getRiskDetails(result).level} Risk
                       </h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Risk Score: {result}
-                      </p>
                     </div>
                   </div>
 
