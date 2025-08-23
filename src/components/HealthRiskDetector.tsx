@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
-import { Heart, Activity, Coffee, Moon, Scale, Cigarette, Wine, Zap, User, Play } from 'lucide-react';
-import axios from 'axios';
+import React, { useState, FormEvent } from "react";
+import { Heart, Activity, Coffee, Moon, Zap, User, Play } from "lucide-react";
+import axios from "axios";
+
+type FormData = {
+  id: number;
+  age: number;
+  gender: number;
+  coffee_intake: number;
+  caffeine_mg: number;
+  sleep_hours: number;
+  sleep_quality: number;
+  bmi: number;
+  heart_rate: number;
+  stress_level: number;
+  physical_activity_hours: number;
+  smoking: number;
+  alcohol_consumption: number;
+};
 
 export default function HealthRiskDetector() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     id: 0,
     age: 0,
     gender: 0,
@@ -16,47 +32,52 @@ export default function HealthRiskDetector() {
     stress_level: 0,
     physical_activity_hours: 0,
     smoking: 0,
-    alcohol_consumption: 0
+    alcohol_consumption: 0,
   });
 
   const [result, setResult] = useState<number | null>(null);
   const [recommendations, setRecommendations] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({
+  const handleInputChange = (
+    field: keyof FormData,
+    value: string | number
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: parseFloat(value) || 0
+      [field]: typeof value === "string" ? parseFloat(value) || 0 : value,
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsAnalyzing(true);
 
     try {
-      const response = await axios.post("/api/predict", formData);
-      const prediction = response.data.prediction;
-      setResult(prediction);
+      const response = await axios.post<{ prediction: number }>(
+        "/api/predict",
+        formData
+      );
+      setResult(response.data.prediction);
 
-      const response1 = await axios.post("/api/recommend", {
-        prompt: 'Provide 3 recommendations for a patient with the following details (bullet form, short sentence): ' + JSON.stringify(formData),
+      const response1 = await axios.post<{ text: string }>("/api/recommend", {
+        prompt:
+          "Provide 3 recommendations for a patient with the following details (bullet form, short sentence): " +
+          JSON.stringify(formData),
       });
+
       const text = response1.data.text;
       const rawRecommend = text
         .split("\n")
-        .filter((line: string) => line.trim().startsWith("*"))
-        .map((line: string) =>
-          line
-            .replace(/^\*\s*/, "")
-            .replace(/\*\*/g, "")
-            .trim()
+        .filter((line) => line.trim().startsWith("*"))
+        .map((line) =>
+          line.replace(/^\*\s*/, "").replace(/\*\*/g, "").trim()
         );
 
       setRecommendations(rawRecommend);
-      setIsAnalyzing(false);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
+    } finally {
       setIsAnalyzing(false);
     }
   };
@@ -75,12 +96,11 @@ export default function HealthRiskDetector() {
       stress_level: 0,
       physical_activity_hours: 0,
       smoking: 0,
-      alcohol_consumption: 0
+      alcohol_consumption: 0,
     });
     setResult(null);
   };
 
-  // Check if all required fields are filled
   const isFormValid = () => {
     return Object.values(formData).every(value => value !== null);
   };

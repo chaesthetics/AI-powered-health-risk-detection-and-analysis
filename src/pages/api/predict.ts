@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
@@ -11,7 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const prediction = JSON.parse(response.data.body).prediction;
     res.status(200).json({ prediction });
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as AxiosError;
     console.error("Predict API error:", error.message);
     res.status(500).json({ error: "Prediction request failed" });
   }
