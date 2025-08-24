@@ -99,6 +99,7 @@ export default function HealthRiskDetector() {
       alcohol_consumption: 0,
     });
     setResult(null);
+    setRecommendations([]);
   };
 
   const isFormValid = () => {
@@ -502,66 +503,69 @@ export default function HealthRiskDetector() {
             </div>
           </div>
 
-          {/* Results Section */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg p-8 sticky top-32">
-              <div className="flex items-center space-x-2 mb-6">
-                <Heart className="w-6 h-6 text-red-500" />
-                <h2 className="text-2xl font-semibold text-gray-900">Risk Assessment</h2>
-              </div>
-
-              {result === null && !isAnalyzing && (
-                <div className="text-center py-12">
-                  <div className="bg-gray-100 rounded-full p-6 w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-                    <Activity className="w-12 h-12 text-gray-400" />
-                  </div>
-                  <p className="text-gray-500">Complete all required fields to see your health risk assessment</p>
+            <div className="bg-white rounded-2xl shadow-lg sticky top-32">
+              <div className="p-8 min-h-[400px] overflow-h-auto flex flex-col">
+                <div className="flex items-center space-x-2 mb-6 flex-shrink-0">
+                  <Heart className="w-6 h-6 text-red-500" />
+                  <h2 className="text-2xl font-semibold text-gray-900">Risk Assessment</h2>
                 </div>
-              )}
 
-              {isAnalyzing && (
-                <div className="text-center py-12">
-                  <div className="bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full p-6 w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-3 border-white border-t-transparent"></div>
-                  </div>
-                  <p className="text-gray-600 font-medium">Analyzing health data...</p>
-                  <p className="text-sm text-gray-500 mt-2">This may take a few seconds</p>
-                </div>
-              )}
-
-              {result !== null && !isAnalyzing && (
-                <div className="space-y-6">
-                  {/* Risk Level */}
-                  <div className={`p-6 rounded-xl border-2 ${getRiskDetails(result).bgClass}`}>
+                <div className="flex-1 flex flex-col justify-center min-h-0">
+                  {result === null && !isAnalyzing && (
                     <div className="text-center">
-                      <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 ${getRiskDetails(result).iconBgClass}`}>
-                        <Heart className={`w-8 h-8 ${getRiskDetails(result).iconClass}`} />
+                      <div className="bg-gray-100 rounded-full p-6 w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+                        <Activity className="w-12 h-12 text-gray-400" />
                       </div>
-                      <h3 className={`text-xl font-bold ${getRiskDetails(result).textClass}`}>
-                        {getRiskDetails(result).level} Risk
-                      </h3>
+                      <p className="text-gray-500">Complete all required fields to see your health risk assessment</p>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Recommendations */}
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">Recommendations</h4>
-                    <div className="space-y-2">
-                      {getRiskDetails(result).recommendations.map((rec, index) => (
-                        <div key={index} className={`flex items-start space-x-2 p-3 ${getRiskDetails(result).recBgClass} rounded-lg`}>
-                          <div className={`w-2 h-2 ${getRiskDetails(result).recDotClass} rounded-full mt-2 flex-shrink-0`}></div>
-                          <p className={`text-sm ${getRiskDetails(result).recTextClass}`}>{rec}</p>
+                  {isAnalyzing && (
+                    <div className="text-center">
+                      <div className="bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full p-5 w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-3 border-white border-t-transparent"></div>
+                      </div>
+                      <p className="text-gray-600 font-medium">Analyzing health data...</p>
+                      <p className="text-sm text-gray-500 mt-2">This may take a few seconds</p>
+                    </div>
+                  )}
+
+                  {result !== null && !isAnalyzing && (
+                    <div className="space-y-6 h-full flex flex-col">
+                      {/* Risk Level */}
+                      <div className={`p-6 rounded-xl border-2 ${getRiskDetails(result).bgClass} flex-shrink-0`}>
+                        <div className="text-center">
+                          <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 ${getRiskDetails(result).iconBgClass}`}>
+                            <Heart className={`w-8 h-8 ${getRiskDetails(result).iconClass}`} />
+                          </div>
+                          <h3 className={`text-xl font-bold ${getRiskDetails(result).textClass}`}>
+                            {getRiskDetails(result).level} Risk
+                          </h3>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                      </div>
 
-                  {/* Action Button */}
-                  <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200">
-                    Generate Detailed Report
-                  </button>
+                      <div className="flex-1 min-h-0">
+                        <h4 className="font-semibold text-gray-900 mb-3">Recommendations</h4>
+                        <div className="space-y-2 overflow-y-auto">
+                          {getRiskDetails(result).recommendations.map((rec, index) => (
+                            <div key={index} className={`flex items-start space-x-2 p-3 ${getRiskDetails(result).recBgClass} rounded-lg`}>
+                              <div className={`w-2 h-2 ${getRiskDetails(result).recDotClass} rounded-full mt-2 flex-shrink-0`}></div>
+                              <p className={`text-sm ${getRiskDetails(result).recTextClass}`}>{rec}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex-shrink-0">
+                        <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200">
+                          Generate Detailed Report
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
