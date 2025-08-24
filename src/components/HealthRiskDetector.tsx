@@ -114,7 +114,7 @@ export default function HealthRiskDetector() {
           color: 'blue',
           bgClass: 'bg-blue-50 border-blue-200',
           iconBgClass: 'bg-blue-100',
-          iconClass: 'text-blue-600',
+          iconClass: 'text-sky-700',
           textClass: 'text-blue-800',
           recommendations,
           recBgClass: 'bg-blue-50',
@@ -175,25 +175,25 @@ export default function HealthRiskDetector() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center space-x-3">
             <div className="bg-gradient-to-r from-blue-500 to-emerald-500 p-3 rounded-xl">
-              <Heart className="w-8 h-8 text-white" />
+              <Heart className="sm:w-4 sm:h-4 md:w-8 md:h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Health Risk Assessment</h1>
-              <p className="text-gray-600">AI-powered health risk detection and analysis</p>
+              <h1 className="text-xl sm:text-xl md:text-3xl font-bold text-gray-900">Health Risk Assessment</h1>
+              <p className="text-gray-600 hidden sm:hidden md:block">AI-powered health risk detection and analysis</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto p2 sm:p-2 md:p-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* Form Section */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-4 md:p-8">
               <div className="flex items-center space-x-2 mb-6">
                 <User className="w-6 h-6 text-blue-500" />
-                <h2 className="text-2xl font-semibold text-gray-900">Patient Information</h2>
+                <h2 className="lg sm:lg md:text-2xl font-semibold text-gray-900">Patient Information</h2>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -207,7 +207,7 @@ export default function HealthRiskDetector() {
                       type="number"
                       value={formData.id || ''}
                       onChange={(e) => handleInputChange('id', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                       placeholder="Enter ID"
                       required
                     />
@@ -221,7 +221,7 @@ export default function HealthRiskDetector() {
                       type="number"
                       value={formData.age || ''}
                       onChange={(e) => handleInputChange('age', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                       placeholder="Age in years"
                       required
                     />
@@ -235,7 +235,7 @@ export default function HealthRiskDetector() {
                       <select
                         value={formData.gender}
                         onChange={(e) => handleInputChange('gender', e.target.value)}
-                        className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none bg-white"
+                        className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg outline-none text-black ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors appearance-none bg-white"
                         required
                       >
                         <option value="0">Female</option>
@@ -254,7 +254,7 @@ export default function HealthRiskDetector() {
                 <div className="bg-amber-50 rounded-lg p-6 border border-amber-200">
                   <div className="flex items-center space-x-2 mb-4">
                     <Coffee className="w-5 h-5 text-amber-600" />
-                    <h3 className="text-lg font-semibold text-amber-800">Caffeine Intake</h3>
+                    <h3 className="text-md sm:text-md lg:text-lg font-semibold text-amber-800">Caffeine Intake</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -266,7 +266,7 @@ export default function HealthRiskDetector() {
                         step="0.1"
                         value={formData.coffee_intake || ''}
                         onChange={(e) => handleInputChange('coffee_intake', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                         placeholder="e.g., 2.5"
                         required
                       />
@@ -280,7 +280,7 @@ export default function HealthRiskDetector() {
                         step="0.1"
                         value={formData.caffeine_mg || ''}
                         onChange={(e) => handleInputChange('caffeine_mg', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                         placeholder="e.g., 194.7"
                         required
                       />
@@ -292,7 +292,7 @@ export default function HealthRiskDetector() {
                 <div className="bg-indigo-50 rounded-lg p-6 border border-indigo-200">
                   <div className="flex items-center space-x-2 mb-4">
                     <Moon className="w-5 h-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-indigo-800">Sleep Pattern</h3>
+                    <h3 className="text-md sm:text-md lg:text-lg font-semibold text-indigo-800">Sleep Pattern</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -304,7 +304,7 @@ export default function HealthRiskDetector() {
                         step="0.1"
                         value={formData.sleep_hours || ''}
                         onChange={(e) => handleInputChange('sleep_hours', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                         placeholder="e.g., 7.5"
                         required
                       />
@@ -317,7 +317,7 @@ export default function HealthRiskDetector() {
                         <select
                           value={formData.sleep_quality}
                           onChange={(e) => handleInputChange('sleep_quality', e.target.value)}
-                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none bg-white"
+                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg outline-none text-black ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors appearance-none bg-white"
                           required
                         >
                           <option value="0">Fair</option>
@@ -337,7 +337,7 @@ export default function HealthRiskDetector() {
                 <div className="bg-green-50 rounded-lg p-6 border border-green-200">
                   <div className="flex items-center space-x-2 mb-4">
                     <Activity className="w-5 h-5 text-green-600" />
-                    <h3 className="text-lg font-semibold text-green-800">Physical Health</h3>
+                    <h3 className="text-md sm:text-md lg:text-lg font-semibold text-green-800">Physical Health</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -349,7 +349,7 @@ export default function HealthRiskDetector() {
                         step="0.1"
                         value={formData.bmi || ''}
                         onChange={(e) => handleInputChange('bmi', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                         placeholder="e.g., 24.5"
                         required
                       />
@@ -362,7 +362,7 @@ export default function HealthRiskDetector() {
                         type="number"
                         value={formData.heart_rate || ''}
                         onChange={(e) => handleInputChange('heart_rate', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                         placeholder="e.g., 72"
                         required
                       />
@@ -376,7 +376,7 @@ export default function HealthRiskDetector() {
                         step="0.1"
                         value={formData.physical_activity_hours || ''}
                         onChange={(e) => handleInputChange('physical_activity_hours', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg outline-none ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors"
                         placeholder="e.g., 1.5"
                         required
                       />
@@ -388,7 +388,7 @@ export default function HealthRiskDetector() {
                 <div className="bg-red-50 rounded-lg p-6 border border-red-200">
                   <div className="flex items-center space-x-2 mb-4">
                     <Zap className="w-5 h-5 text-red-600" />
-                    <h3 className="text-lg font-semibold text-red-800">Lifestyle & Stress</h3>
+                    <h3 className="text-md sm:text-md lg:text-lg font-semibold text-red-800">Lifestyle & Stress</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -399,7 +399,7 @@ export default function HealthRiskDetector() {
                         <select
                           value={formData.stress_level}
                           onChange={(e) => handleInputChange('stress_level', e.target.value)}
-                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none bg-white"
+                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg outline-none text-black ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors appearance-none bg-white"
                           required
                         >
                           <option value="0">Low</option>
@@ -420,7 +420,7 @@ export default function HealthRiskDetector() {
                         <select
                           value={formData.smoking}
                           onChange={(e) => handleInputChange('smoking', e.target.value)}
-                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none bg-white"
+                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg outline-none text-black ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors appearance-none bg-white"
                           required
                         >
                           <option value="0">Non-smoker</option>
@@ -441,7 +441,7 @@ export default function HealthRiskDetector() {
                         <select
                           value={formData.alcohol_consumption}
                           onChange={(e) => handleInputChange('alcohol_consumption', e.target.value)}
-                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none bg-white"
+                          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg outline-none text-black ring-none focus:ring-1 focus:ring-green-800 focus:border-green-500 transition-colors appearance-none bg-white"
                           required
                         >
                           <option value="0">No</option>
@@ -462,7 +462,7 @@ export default function HealthRiskDetector() {
                   <button
                     type="submit"
                     disabled={isAnalyzing || !isFormValid()}
-                    className="flex-1 hover:cursor-pointer bg-gradient-to-r from-blue-500 to-emerald-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="flex-1 hover:cursor-pointer bg-gradient-to-r from-blue-500 to-emerald-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-sky-700 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {isAnalyzing ? (
                       <>
@@ -472,7 +472,7 @@ export default function HealthRiskDetector() {
                     ) : (
                       <>
                         <Play className="w-5 h-5" />
-                        <span>Analyze Health Risk</span>
+                        <span className="text-sm sm:text-sm md:text-md">Analyze Health Risk</span>
                       </>
                     )}
                   </button>
@@ -480,7 +480,7 @@ export default function HealthRiskDetector() {
                   <button
                     type="button"
                     onClick={resetForm}
-                    className="px-6 py-4 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
+                    className="px-6 py-4 text-sm sm:text-sm md:text-md border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
                   >
                     Reset
                   </button>
